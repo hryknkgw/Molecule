@@ -35,9 +35,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="pdbx-v40.cs" />
     <Compile Include="PDBParser.cs" />
     <Compile Include="Atom.cs" />
+    <Compile Include="Structure.cs" />
+    <Compile Include="Residue.cs" />
+    <Compile Include="Chain.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

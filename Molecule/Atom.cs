@@ -1,14 +1,46 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Molecule
 {
 	public class Atom
 	{
-		public string[] S {get; set;}
-		public Atom (System.Collections.Generic.IEnumerable<string> s)
+		public int Serial { get; set;}
+		public string Name { get; set;}
+		public char AltLoc { get; set;}
+		public string ResName { get; set;}
+		public char ChainID { get; set;}
+		public int ResSeq { get; set;}
+		public char ICode { get; set;}
+		public double X { get; set;}
+		public double Y { get; set;}
+		public double Z { get; set;}
+		public double Occupancy { get; set;}
+		public double TempFactor { get; set;}
+		public string Element { get; set;}
+		public string Charge { get; set;}
+		public Residue Residue { get; set; }
+		public Chain Chain { get; set; }
+		
+		public Atom (int serial, string name, char altLoc, string resName, char chainID, int resSeq, char iCode, double x, double y, double z, double occupancy, double tempFactor, string element, string charge, Residue residue = null, Chain chain = null)
 		{
-			S = s.ToArray();
+			Serial = serial;
+			Name = name;
+			AltLoc = altLoc;
+			ResName = resName;
+			ChainID = chainID;
+			ResSeq = resSeq;
+			ICode = iCode;
+			X = x;
+			Y = y;
+			Z = z;
+			Occupancy = occupancy;
+			TempFactor = tempFactor;
+			Element = element;
+			Charge = charge;
+			Residue = residue;
+			Chain = chain;
 		}
 	}
 }
