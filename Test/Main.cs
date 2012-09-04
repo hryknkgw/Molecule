@@ -7,7 +7,7 @@ namespace Test
 		public static void Main (string[] args)
 		{
 			var p = new Molecule.PDBParser ();
-			var s = p.Parse ("1HZH.pdb");
+			var s = p.Parse ("2J88.pdb");
 			System.Console.WriteLine (s);
 		}
 	}
