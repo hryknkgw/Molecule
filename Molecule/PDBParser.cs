@@ -56,7 +56,7 @@ namespace Molecule
 							atom.ResSeq,
 							atom.ICode
 						);
-						while (missingResidues.Count() > 0 && missingResidues.First().ChainID == residue.ChainID && missingResidues.First().ResSeq <= residue.ResSeq && missingResidues.First().ICode <= residue.ICode) {
+						while (missingResidues.Count() > 0 && missingResidues.First().ChainID == residue.ChainID && (missingResidues.First().ResSeq < residue.ResSeq || (missingResidues.First().ResSeq == residue.ResSeq && missingResidues.First().ICode < residue.ICode))) {
 							structure.Residues.Add (missingResidues.Dequeue ());
 						}
 						structure.Residues.Add (residue);
