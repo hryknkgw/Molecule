@@ -12,9 +12,9 @@ namespace Molecule
 		{
 		}
 		
-		public Structure Parse (System.IO.TextReader reader)
+		public Model Parse (System.IO.TextReader reader)
 		{
-			var structure = new Structure ();
+			var model = new Model ();
 			var missingResidues = new Queue<Residue> ();
 			var reAtom = new System.Text.RegularExpressions.Regex ("^ATOM  (?<serial>.{5}) (?<name>.{4})(?<altLoc>.{1})(?<resName>.{3}) (?<chainID>.{1})(?<resSeq>.{4})(?<iCode>.{1})   (?<x>.{8})(?<y>.{8})(?<z>.{8})(?<occupancy>.{6})(?<tempFactor>.{6})          (?<element>.{2})(?<charge>.{2})$");
 			var reRemark = new System.Text.RegularExpressions.Regex ("^REMARK (?<remarkNum>.{3})");
@@ -40,16 +40,16 @@ namespace Molecule
 						m.Groups ["element"].Value,
 						m.Groups ["charge"].Value
 					);
-					if (structure.Chains.Count == 0 || !(structure.Chains.Last ().ChainID == atom.ChainID)) {
-						while (missingResidues.Count() > 0 && structure.Chains.Count != 0 && missingResidues.First().ChainID == structure.Chains.Last ().ChainID) {
-							structure.Residues.Add (missingResidues.Dequeue ());
+					if (model.Chains.Count == 0 || !(model.Chains.Last ().ChainID == atom.ChainID)) {
+						while (missingResidues.Count() > 0 && model.Chains.Count != 0 && missingResidues.First().ChainID == model.Chains.Last ().ChainID) {
+							model.Residues.Add (missingResidues.Dequeue ());
 						}
 						var chain = new Chain (atom.ChainID);
-						structure.Chains.Add (chain);
+						model.Chains.Add (chain);
 					}
-					atom.Chain = structure.Chains.Last ();
+					atom.Chain = model.Chains.Last ();
 					atom.Chain.Atoms.Add (atom);
-					if (structure.Residues.Count == 0 || !(structure.Residues.Last ().ChainID == atom.ChainID && structure.Residues.Last ().ResSeq == atom.ResSeq && structure.Residues.Last ().ICode == atom.ICode)) {
+					if (model.Residues.Count == 0 || !(model.Residues.Last ().ChainID == atom.ChainID && model.Residues.Last ().ResSeq == atom.ResSeq && model.Residues.Last ().ICode == atom.ICode)) {
 						var residue = new Residue (
 							atom.ResName,
 							atom.ChainID,
@@ -57,13 +57,13 @@ namespace Molecule
 							atom.ICode
 						);
 						while (missingResidues.Count() > 0 && missingResidues.First().ChainID == residue.ChainID && (missingResidues.First().ResSeq < residue.ResSeq || (missingResidues.First().ResSeq == residue.ResSeq && missingResidues.First().ICode < residue.ICode))) {
-							structure.Residues.Add (missingResidues.Dequeue ());
+							model.Residues.Add (missingResidues.Dequeue ());
 						}
-						structure.Residues.Add (residue);
+						model.Residues.Add (residue);
 					}
-					atom.Residue = structure.Residues.Last ();
+					atom.Residue = model.Residues.Last ();
 					atom.Residue.Atoms.Add (atom);
-					structure.Atoms.Add (atom);
+					model.Atoms.Add (atom);
 				} else if (line.StartsWith ("REMARK")) {
 					var m = reRemark.Match (line);
 					if (m.Success) {
@@ -72,13 +72,13 @@ namespace Molecule
 						case 2:
 							m = reRemark2.Match (line);
 							if (m.Success) {
-								structure.Resolution = double.Parse (m.Groups ["resolution"].Value);
+								model.Resolution = double.Parse (m.Groups ["resolution"].Value);
 							}
 							break;
 						case 3:
 							double rfree;
 							if (double.TryParse (line.Replace ("REMARK   3   FREE R VALUE                     :", ""), out rfree)) {
-								structure.RFree = rfree;
+								model.RFree = rfree;
 							}
 							break;
 						case 465:
@@ -100,13 +100,13 @@ namespace Molecule
 					}
 				}
 			}
-			while (missingResidues.Count() > 0 && structure.Chains.Count != 0 && missingResidues.First().ChainID == structure.Chains.Last ().ChainID) {
-				structure.Residues.Add (missingResidues.Dequeue ());
+			while (missingResidues.Count() > 0 && model.Chains.Count != 0 && missingResidues.First().ChainID == model.Chains.Last ().ChainID) {
+				model.Residues.Add (missingResidues.Dequeue ());
 			}
-			return structure;
+			return model;
 		}
 		
-		public Structure Parse (string path)
+		public Model Parse (string path)
 		{
 			System.Diagnostics.Trace.TraceInformation (path);
 			if (Uri.IsWellFormedUriString (path, UriKind.Absolute)) {
@@ -118,7 +118,7 @@ namespace Molecule
 			}
 		}
 		
-		public Structure Parse (Uri address)
+		public Model Parse (Uri address)
 		{
 			using (var reader = new System.IO.StreamReader(new System.IO.Compression.GZipStream(webClient.OpenRead(address), System.IO.Compression.CompressionMode.Decompress))) {
 				return Parse (reader);

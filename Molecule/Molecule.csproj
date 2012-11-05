@@ -37,9 +37,9 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="PDBParser.cs" />
     <Compile Include="Atom.cs" />
-    <Compile Include="Structure.cs" />
     <Compile Include="Residue.cs" />
     <Compile Include="Chain.cs" />
+    <Compile Include="Model.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

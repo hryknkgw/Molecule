@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Molecule
 {
-	public class Structure
+	public class Model
 	{
 		public List<Chain> Chains { get; set; }
 		public List<Residue> Residues { get; set; }
@@ -12,7 +12,7 @@ namespace Molecule
 		public double Resolution {get; set;}
 		public double RFree {get; set;}
 		
-		public Structure ()
+		public Model ()
 		{
 			Chains = new List<Chain>();
 			Residues = new List<Residue>();
