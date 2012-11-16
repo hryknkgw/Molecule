@@ -70,5 +70,7 @@
     <None Include="1AQK.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="1GAL.pdb" />
+    <None Include="1GAL.xml" />
   </ItemGroup>
 </Project>
