@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Molecule
 {
-	public class Atom
+	public class Atom : IComparable<Atom>
 	{
 		public int Serial { get; set;}
 		public string Name { get; set;}
@@ -41,6 +41,10 @@ namespace Molecule
 			Charge = charge;
 			Residue = residue;
 			Chain = chain;
+		}
+		
+		public int CompareTo(Atom atom) {
+			return Serial.CompareTo(atom.Serial);
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Molecule
 {
-	public class Chain
+	public class Chain : IComparable<Chain>
 	{
 		public char ChainID { get; set;}
 		public List<Residue> Residues { get; set;}
@@ -15,6 +15,10 @@ namespace Molecule
 			ChainID = chainID;
 			Residues = residues ?? new List<Residue>();
 			Atoms = atoms ?? new List<Atom>();
+		}
+		
+		public int CompareTo(Chain chain) {
+			return ChainID.CompareTo(chain.ChainID);
 		}
 	}
 }
