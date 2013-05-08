@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using Molecule;
 
 namespace Test
 {
@@ -6,9 +8,13 @@ namespace Test
 	{
 		public static void Main (string[] args)
 		{
-			var p = new Molecule.PDBParser ();
-			var s = p.Parse ("1AQK.pdb");
-			System.Console.WriteLine (s);
+			var p = new PDBParser ();
+			Console.WriteLine(Directory.GetCurrentDirectory());
+			foreach (string pdbfile in Directory.GetFiles(".", "*.pdb")) {
+				Console.WriteLine(pdbfile);
+				var s = p.Parse (pdbfile);
+				Console.WriteLine (s);
+			}
 		}
 	}
 }

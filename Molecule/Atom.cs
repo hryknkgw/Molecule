@@ -47,5 +47,11 @@ namespace Molecule
 			return Serial.CompareTo(atom.Serial);
 		}
 	}
+
+	public class HeteroAtom : Atom {
+		public HeteroAtom (int serial, string name, char altLoc, string resName, char chainID, int resSeq, char iCode, double x, double y, double z, double occupancy, double tempFactor, string element, string charge, Residue residue = null, Chain chain = null) : base(serial, name, altLoc, resName, chainID, resSeq, iCode, x, y, z, occupancy, tempFactor, element, charge, residue, chain)
+		{
+		}
+	}
 }
 
