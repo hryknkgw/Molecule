@@ -26,9 +26,9 @@ namespace Molecule
 					var m = reAtom.Match (line);
 					var atom = (m.Groups ["recordName"].Value.Equals("ATOM  ")) ? new Atom (
 						int.Parse (m.Groups ["serial"].Value),
-						m.Groups ["name"].Value,
+						m.Groups ["name"].Value.Trim(),
 						m.Groups ["altLoc"].Value [0],
-						m.Groups ["resName"].Value,
+						m.Groups ["resName"].Value.Trim(),
 						m.Groups ["chainID"].Value [0],
 						int.Parse (m.Groups ["resSeq"].Value),
 						m.Groups ["iCode"].Value [0],
@@ -37,13 +37,13 @@ namespace Molecule
 						double.Parse (m.Groups ["z"].Value),
 						double.Parse (m.Groups ["occupancy"].Value),
 						double.Parse (m.Groups ["tempFactor"].Value),
-						m.Groups ["element"].Value,
-						m.Groups ["charge"].Value
+						m.Groups ["element"].Value.Trim(),
+						m.Groups ["charge"].Value.Trim()
 					) : new HeteroAtom (
 						int.Parse (m.Groups ["serial"].Value),
-						m.Groups ["name"].Value,
+						m.Groups ["name"].Value.Trim(),
 						m.Groups ["altLoc"].Value [0],
-						m.Groups ["resName"].Value,
+						m.Groups ["resName"].Value.Trim(),
 						m.Groups ["chainID"].Value [0],
 						int.Parse (m.Groups ["resSeq"].Value),
 						m.Groups ["iCode"].Value [0],
@@ -52,8 +52,8 @@ namespace Molecule
 						double.Parse (m.Groups ["z"].Value),
 						double.Parse (m.Groups ["occupancy"].Value),
 						double.Parse (m.Groups ["tempFactor"].Value),
-						m.Groups ["element"].Value,
-						m.Groups ["charge"].Value
+						m.Groups ["element"].Value.Trim(),
+						m.Groups ["charge"].Value.Trim()
 					);
 					if (model.Chains.Count == 0 || !(model.Chains.Last ().ChainID == atom.ChainID)) {
 						while (missingResidues.Count() > 0 && model.Chains.Count != 0 && missingResidues.First().ChainID == model.Chains.Last ().ChainID) {
@@ -101,7 +101,7 @@ namespace Molecule
 							int resSeq;
 							if (m.Success && int.TryParse (m.Groups ["resSeq"].Value, out resSeq)) {
 								var missingResidue = new Residue (
-									m.Groups ["resName"].Value, 
+									m.Groups ["resName"].Value.Trim(), 
 									m.Groups ["chainID"].Value [0], 
 									resSeq, 
 									m.Groups ["iCode"].Value [0]
@@ -145,6 +145,30 @@ namespace Molecule
 					return Parse (reader);
 				}
 			}
+		}
+
+		public string FormatAtomLine (Atom atom)
+		{
+			return (!atom.IsHeteroAtom() ? "ATOM  " : "HETATM") + 
+					atom.Serial.ToString().PadLeft(5) + 
+					" " + 
+					atom.Name.PadRight(3).PadLeft(4) + 
+					atom.AltLoc.ToString().PadLeft(1) + 
+					atom.ResName.PadRight(3) + 
+					" " + 
+					atom.ChainID.ToString().PadRight(1) + 
+					atom.ResSeq.ToString().PadLeft(4) + 
+					atom.ICode.ToString().PadRight(1) + 
+					"   " + 
+					atom.X.ToString("f3").PadLeft(8) + 
+					atom.Y.ToString("f3").PadLeft(8) + 
+					atom.Z.ToString("f3").PadLeft(8) + 
+					atom.Occupancy.ToString("f2").PadLeft(6) + 
+					atom.TempFactor.ToString("f2").PadLeft(6) + 
+					"          " + 
+					atom.Element.PadLeft(2) + 
+					atom.Charge.PadRight(2) + 
+					"\n";
 		}
 	}
 }

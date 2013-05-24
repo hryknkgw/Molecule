@@ -43,8 +43,14 @@ namespace Molecule
 			Chain = chain;
 		}
 		
-		public int CompareTo(Atom atom) {
+		public int CompareTo(Atom atom)
+		{
 			return Serial.CompareTo(atom.Serial);
+		}
+
+		public bool IsHeteroAtom ()
+		{
+			return this is HeteroAtom;
 		}
 	}
 
