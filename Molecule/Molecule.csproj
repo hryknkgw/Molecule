@@ -42,7 +42,4 @@
     <Compile Include="Model.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <None Include="pdbx-v40.xsd" />
-  </ItemGroup>
 </Project>
