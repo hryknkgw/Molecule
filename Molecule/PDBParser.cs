@@ -16,10 +16,10 @@ namespace Molecule
 		{
 			var model = new Model ();
 			var missingResidues = new Queue<Residue> ();
-			var reAtom = new System.Text.RegularExpressions.Regex ("^(?<recordName>ATOM  |HETATM)(?<serial>.{5}) (?<name>.{4})(?<altLoc>.{1})(?<resName>.{3}) (?<chainID>.{1})(?<resSeq>.{4})(?<iCode>.{1})   (?<x>.{8})(?<y>.{8})(?<z>.{8})(?<occupancy>.{6})(?<tempFactor>.{6})          (?<element>.{2})(?<charge>.{2})$");
-			var reRemark = new System.Text.RegularExpressions.Regex ("^REMARK (?<remarkNum>.{3})");
-			var reRemark2 = new System.Text.RegularExpressions.Regex ("^REMARK   2 RESOLUTION. (?<resolution>.{7}) ANGSTROMS.");
-			var reRemark465 = new System.Text.RegularExpressions.Regex ("^REMARK 465 (?<modelNo>.{3}) (?<resName>.{3}) (?<chainID>.{1})  (?<resSeq>.{4})(?<iCode>.{1})");
+			var reAtom = new System.Text.RegularExpressions.Regex ("^(?<recordName>ATOM  |HETATM)(?<serial>.{5}).(?<name>.{4})(?<altLoc>.{1})(?<resName>.{3}).(?<chainID>.{1})(?<resSeq>.{4})(?<iCode>.{1})...(?<x>.{8})(?<y>.{8})(?<z>.{8})(?<occupancy>.{6})(?<tempFactor>.{6})..........(?<element>.{2})(?<charge>.{2})$");
+			var reRemark = new System.Text.RegularExpressions.Regex ("^REMARK.(?<remarkNum>.{3})");
+			var reRemark2 = new System.Text.RegularExpressions.Regex ("^REMARK.  2.RESOLUTION..(?<resolution>.{7}).ANGSTROMS.");
+			var reRemark465 = new System.Text.RegularExpressions.Regex ("^REMARK.465.(?<modelNo>.{3}).(?<resName>.{3}).(?<chainID>.{1})..(?<resSeq>.{4})(?<iCode>.{1})");
 			while (reader.Peek() != -1) {
 				var line = reader.ReadLine ();
 				if (line.StartsWith ("ATOM  ") || line.StartsWith ("HETATM") ) {
